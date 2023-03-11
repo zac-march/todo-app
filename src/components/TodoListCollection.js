@@ -3,11 +3,11 @@ class TodoListCollection {
     this.collection = [];
   }
 
-  addList(item) {
+  add(item) {
     this.collection.push(item);
   }
 
-  removeList(index) {
+  remove(index) {
     this.collection.splice(index, 1);
   }
 }

@@ -4,11 +4,11 @@ class TodoList {
     this.name = name;
   }
 
-  addItem(item) {
+  add(item) {
     this.items.push(item);
   }
 
-  removeItem(index) {
+  remove(index) {
     this.items.splice(index, 1);
   }
 }

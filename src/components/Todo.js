@@ -32,6 +32,17 @@ class Todo {
   setDueDate(dueDate) {
     this.dueDate = dueDate;
   }
+
+  static createRandom() {
+    const title = `Todo ${Math.floor(Math.random() * 100)}`;
+    const description = `Description for ${title}`;
+    const daysUntilDue = Math.floor(Math.random() * 30);
+    const dueDate = new Date();
+    dueDate.setDate(dueDate.getDate() + daysUntilDue);
+    const isPriority = Math.random() < 0.5;
+    const isComplete = Math.random() < 0.5;
+    return new Todo(title, description, dueDate, isPriority, isComplete);
+  }
 }
 
 export { Todo };

@@ -1,20 +1,33 @@
 import { generateRandomTodoList } from "../generateRandomTodoList";
+import { Todo } from "./Todo";
 function TodoListScreenController() {
   const todoList = generateRandomTodoList();
   const body = document.querySelector("body");
 
   function updateScreen() {
     body.innerHTML = "";
-    displayTodoListTitle();
+    displayTodoListHeader();
     displayTodos();
   }
 
-  function displayTodoListTitle() {
-    const todoListTitleContainer = document.createElement("div");
+  function displayTodoListHeader() {
+    const todoListHeaderDiv = document.createElement("div");
     const todoListTitle = document.createElement("h1");
+    const todoCreateBtn = document.createElement("button");
+
+    todoCreateBtn.textContent = "+ ADD";
+    todoCreateBtn.classList.add("add-todo-btn");
     todoListTitle.textContent = todoList.name;
-    todoListTitleContainer.appendChild(todoListTitle);
-    body.appendChild(todoListTitleContainer);
+
+    todoListHeaderDiv.appendChild(todoListTitle);
+    todoListHeaderDiv.appendChild(todoCreateBtn);
+    body.appendChild(todoListHeaderDiv);
+
+    todoCreateBtn.addEventListener("click", () => {
+      const todo = Todo.createRandom();
+      todoList.add(todo);
+      updateScreen();
+    });
   }
 
   function displayTodos() {
@@ -38,7 +51,6 @@ function TodoListScreenController() {
       body.appendChild(todoContainer);
     }
   }
-
   updateScreen();
 }
 export { TodoListScreenController };
