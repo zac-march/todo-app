@@ -47,8 +47,17 @@ function TodoListScreenController() {
         isComplete ? "Completed" : "Incomplete"
       }</p>
       `;
-
       todoContainer.classList.add("todo");
+
+      const removeBtn = document.createElement("button");
+      removeBtn.textContent = "X";
+      removeBtn.addEventListener("click", (e) => {
+        const indexOfTodo = e.target.parentElement.dataset.index;
+        todoList.remove(indexOfTodo);
+        updateScreen();
+      });
+      todoContainer.appendChild(removeBtn);
+
       body.appendChild(todoContainer);
     }
   }
