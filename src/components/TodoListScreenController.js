@@ -2,12 +2,20 @@ import { generateRandomTodoList } from "../generateRandomTodoList";
 import { Todo } from "./Todo";
 
 function TodoListScreenController() {
-  const todoList = generateRandomTodoList();
   const body = document.querySelector("body");
+  const todoList = generateRandomTodoList();
+  const todoListDiv = document.createElement("div");
 
   function updateScreen() {
     body.innerHTML = "";
+    todoListDiv.innerHTML = "";
     renderHeader();
+    renderLists();
+    body.appendChild(todoListDiv);
+  }
+
+  function updateTodoList() {
+    todoListDiv.innerHTML = "";
     renderLists();
   }
 
@@ -83,32 +91,35 @@ function TodoListScreenController() {
     function toggleComplete(e) {
       const indexOfTodo = e.target.parentElement.dataset.index;
       todoList.get(indexOfTodo).toggleComplete();
-      updateScreen();
+      updateTodoList();
     }
 
     function removeTodoItem(e) {
       const indexOfTodo = e.target.parentElement.dataset.index;
       todoList.remove(indexOfTodo);
-      updateScreen();
+      updateTodoList();
     }
 
-    for (const [index, todo] of todoList.items.entries()) {
-      const todoDiv = createTodoItemElement(todo, index);
+    function renderTodoDivs() {
+      for (const [index, todo] of todoList.items.entries()) {
+        const todoDiv = createTodoItemElement(todo, index);
 
-      const completeBtn = todoDiv.querySelector("button:first-of-type");
-      const removeBtn = todoDiv.querySelector("button:last-of-type");
+        const completeBtn = todoDiv.querySelector("button:first-of-type");
+        const removeBtn = todoDiv.querySelector("button:last-of-type");
 
-      completeBtn.addEventListener("click", toggleComplete);
-      removeBtn.addEventListener("click", removeTodoItem);
+        completeBtn.addEventListener("click", toggleComplete);
+        removeBtn.addEventListener("click", removeTodoItem);
 
-      if (todo.isComplete) {
-        completedTodosDiv.appendChild(todoDiv);
-      } else {
-        incompleteTodosDiv.appendChild(todoDiv);
+        if (todo.isComplete) {
+          completedTodosDiv.appendChild(todoDiv);
+        } else {
+          incompleteTodosDiv.appendChild(todoDiv);
+        }
       }
+      todoListDiv.appendChild(incompleteTodosDiv);
+      todoListDiv.appendChild(completedTodosDiv);
     }
-    body.appendChild(incompleteTodosDiv);
-    body.appendChild(completedTodosDiv);
+    renderTodoDivs();
   }
   updateScreen();
 }
