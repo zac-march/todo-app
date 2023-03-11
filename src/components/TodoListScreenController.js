@@ -42,26 +42,28 @@ function TodoListScreenController() {
   }
 
   function displayTodos() {
+    const todoListDiv = document.createElement("div");
+    todoListDiv.classList.add("todo-list");
     for (const [index, todo] of todoList.items.entries()) {
-      const todoContainer = document.createElement("div");
-      todoContainer.dataset.index = index;
+      const todoDiv = document.createElement("div");
+      todoDiv.dataset.index = index;
 
       const { title, description, dueDate, isPriority, isComplete } = todo;
-      const priorityClass = isPriority ? "priority" : "";
       const completeClass = isComplete ? "complete" : "incomplete";
-
+      const completeBtnText = isComplete ? "✓" : "O";
       if (isPriority) {
-        todoContainer.classList.add("priority");
+        todoDiv.classList.add("priority");
       }
-      todoContainer.classList.add(completeClass);
-      todoContainer.innerHTML = `
+      todoDiv.classList.add(completeClass);
+      todoDiv.innerHTML += `
+        <button>${completeBtnText}</button>
         <div class="todo-header">
           <p class="todo-title">${title}</p>
           <p class="todo-description">${description}</p>
         </div>
         <p class="due-date">${dueDate}</p>
       `;
-      todoContainer.classList.add("todo");
+      todoDiv.classList.add("todo");
 
       const removeBtn = document.createElement("button");
       removeBtn.textContent = "X";
@@ -70,10 +72,11 @@ function TodoListScreenController() {
         todoList.remove(indexOfTodo);
         updateScreen();
       });
-      todoContainer.appendChild(removeBtn);
+      todoDiv.appendChild(removeBtn);
 
-      body.appendChild(todoContainer);
+      todoListDiv.appendChild(todoDiv);
     }
+    body.appendChild(todoListDiv);
   }
   updateScreen();
 }
