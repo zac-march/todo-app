@@ -8,9 +8,9 @@ function TodoListScreenController() {
 
   function updateScreen() {
     body.innerHTML = "";
-    todoListDiv.innerHTML = "";
     renderHeader();
-    renderLists();
+    renderTodoCreate();
+    updateTodoList();
     body.appendChild(todoListDiv);
   }
 
@@ -23,31 +23,32 @@ function TodoListScreenController() {
     const todoListHeaderDiv = document.createElement("div");
     const todoListTitle = document.createElement("h1");
 
-    const todoCreateDiv = generateTodoCreateDiv();
     todoListTitle.textContent = todoList.name;
     todoListHeaderDiv.appendChild(todoListTitle);
-    todoListHeaderDiv.appendChild(todoCreateDiv);
     body.appendChild(todoListHeaderDiv);
+  }
 
-    function generateTodoCreateDiv() {
-      const todoCreateDiv = document.createElement("div");
-      const todoCreateBtn = document.createElement("button");
-      const todoCreateInput = document.createElement("input");
+  function renderTodoCreate() {
+    const todoCreateDiv = document.createElement("div");
+    const todoCreateBtn = document.createElement("button");
+    const todoCreateInput = document.createElement("input");
 
-      todoCreateBtn.textContent = "+ ADD";
-      todoCreateBtn.classList.add("add-todo-btn");
-      todoCreateInput.placeholder = "Add new todo";
+    todoCreateBtn.textContent = "+ ADD";
+    todoCreateBtn.classList.add("add-todo-btn");
+    todoCreateInput.placeholder = "Add new todo";
+    todoCreateDiv.classList.add("todo-create");
 
-      todoCreateDiv.appendChild(todoCreateBtn);
-      todoCreateDiv.appendChild(todoCreateInput);
-      todoCreateBtn.addEventListener("click", () => {
-        if (todoCreateInput.value != "") {
-          todoList.add(new Todo(todoCreateInput.value));
-          updateScreen();
-        }
-      });
-      return todoCreateDiv;
+    todoCreateDiv.appendChild(todoCreateBtn);
+    todoCreateDiv.appendChild(todoCreateInput);
+    todoCreateBtn.addEventListener("click", createTodo);
+
+    function createTodo() {
+      if (todoCreateInput.value != "") {
+        todoList.add(new Todo(todoCreateInput.value));
+        updateScreen();
+      }
     }
+    body.appendChild(todoCreateDiv);
   }
 
   function renderLists() {
@@ -75,7 +76,7 @@ function TodoListScreenController() {
         <p class="todo-title">${title}</p>
         <p class="todo-description">${description}</p>
       </div>
-      <p class="due-date">${dueDate}</p>
+      <p class="todo-date">${dueDate}</p>
       <button>X</button>
     `;
 
