@@ -1,9 +1,9 @@
-function todoFactory(title, description, dueDate, priority, isComplete) {
+function todoFactory(title, description, dueDate, isPriority, isComplete) {
   return {
     title,
     description,
     dueDate,
-    priority,
+    isPriority,
     isComplete,
   };
 }
