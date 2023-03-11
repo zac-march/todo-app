@@ -31,8 +31,9 @@ function TodoListScreenController() {
   }
 
   function displayTodos() {
-    for (let todo of todoList.items) {
+    for (const [index, todo] of todoList.items.entries()) {
       const todoContainer = document.createElement("div");
+      todoContainer.dataset.index = index;
 
       const { title, description, dueDate, isPriority, isComplete } = todo;
       const priorityClass = isPriority ? "priority" : "";
