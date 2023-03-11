@@ -80,9 +80,9 @@ function TodoListScreenController() {
       return todoDiv;
     }
 
-    function markTodoAsComplete(e) {
+    function toggleComplete(e) {
       const indexOfTodo = e.target.parentElement.dataset.index;
-      todoList.get(indexOfTodo).markAsComplete();
+      todoList.get(indexOfTodo).toggleComplete();
       updateScreen();
     }
 
@@ -98,7 +98,7 @@ function TodoListScreenController() {
       const completeBtn = todoDiv.querySelector("button:first-of-type");
       const removeBtn = todoDiv.querySelector("button:last-of-type");
 
-      completeBtn.addEventListener("click", markTodoAsComplete);
+      completeBtn.addEventListener("click", toggleComplete);
       removeBtn.addEventListener("click", removeTodoItem);
 
       if (todo.isComplete) {

@@ -13,12 +13,8 @@ class Todo {
     this.isComplete = isComplete;
   }
 
-  markAsComplete() {
-    this.isComplete = true;
-  }
-
-  markAsIncomplete() {
-    this.isComplete = false;
+  toggleComplete() {
+    this.isComplete ? (this.isComplete = false) : (this.isComplete = true);
   }
 
   setPriority(isPriority) {
