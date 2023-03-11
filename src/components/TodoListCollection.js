@@ -1,14 +1,14 @@
 class TodoListCollection {
   constructor() {
-    this.list = [];
+    this.collection = [];
   }
 
   addList(item) {
-    this.list.push(item);
+    this.collection.push(item);
   }
 
   removeList(index) {
-    this.list.splice(index, 1);
+    this.collection.splice(index, 1);
   }
 }
 
