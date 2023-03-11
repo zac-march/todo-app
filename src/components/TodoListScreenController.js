@@ -1,16 +1,17 @@
 import { generateRandomTodoList } from "../generateRandomTodoList";
 import { Todo } from "./Todo";
+
 function TodoListScreenController() {
   const todoList = generateRandomTodoList();
   const body = document.querySelector("body");
 
   function updateScreen() {
     body.innerHTML = "";
-    displayTodoListHeader();
-    displayTodos();
+    renderHeader();
+    renderLists();
   }
 
-  function displayTodoListHeader() {
+  function renderHeader() {
     const todoListHeaderDiv = document.createElement("div");
     const todoListTitle = document.createElement("h1");
 
@@ -41,41 +42,66 @@ function TodoListScreenController() {
     }
   }
 
-  function displayTodos() {
+  function renderLists() {
     const incompleteTodosDiv = document.createElement("div");
     const completedTodosDiv = document.createElement("div");
     incompleteTodosDiv.classList.add("incomplete-todo-list");
     completedTodosDiv.classList.add("completed-todo-list");
-    for (const [index, todo] of todoList.items.entries()) {
+
+    function createTodoItemElement(todo, index) {
+      const { title, description, dueDate, isPriority, isComplete } = todo;
+
       const todoDiv = document.createElement("div");
+      todoDiv.classList.add("todo");
       todoDiv.dataset.index = index;
 
-      const { title, description, dueDate, isPriority, isComplete } = todo;
       const completeClass = isComplete ? "complete" : "incomplete";
-      const completeBtnText = isComplete ? "✓" : "O";
+      todoDiv.classList.add(completeClass);
       if (isPriority) {
         todoDiv.classList.add("priority");
       }
-      todoDiv.classList.add(completeClass);
-      todoDiv.innerHTML += `
-        <button>${completeBtnText}</button>
-        <div class="todo-header">
-          <p class="todo-title">${title}</p>
-          <p class="todo-description">${description}</p>
-        </div>
-        <p class="due-date">${dueDate}</p>
-      `;
-      todoDiv.classList.add("todo");
 
-      const removeBtn = document.createElement("button");
-      removeBtn.textContent = "X";
-      removeBtn.addEventListener("click", (e) => {
-        const indexOfTodo = e.target.parentElement.dataset.index;
-        todoList.remove(indexOfTodo);
-        updateScreen();
-      });
-      todoDiv.appendChild(removeBtn);
+      todoDiv.innerHTML = `
+      <button>${isComplete ? "✓" : "O"}</button>
+      <div class="todo-header">
+        <p class="todo-title">${title}</p>
+        <p class="todo-description">${description}</p>
+      </div>
+      <p class="due-date">${dueDate}</p>
+      <button>X</button>
+    `;
+
       if (isComplete) {
+        completedTodosDiv.appendChild(todoDiv);
+      } else {
+        incompleteTodosDiv.appendChild(todoDiv);
+      }
+
+      return todoDiv;
+    }
+
+    function markTodoAsComplete(e) {
+      const indexOfTodo = e.target.parentElement.dataset.index;
+      todoList.get(indexOfTodo).markAsComplete();
+      updateScreen();
+    }
+
+    function removeTodoItem(e) {
+      const indexOfTodo = e.target.parentElement.dataset.index;
+      todoList.remove(indexOfTodo);
+      updateScreen();
+    }
+
+    for (const [index, todo] of todoList.items.entries()) {
+      const todoDiv = createTodoItemElement(todo, index);
+
+      const completeBtn = todoDiv.querySelector("button:first-of-type");
+      const removeBtn = todoDiv.querySelector("button:last-of-type");
+
+      completeBtn.addEventListener("click", markTodoAsComplete);
+      removeBtn.addEventListener("click", removeTodoItem);
+
+      if (todo.isComplete) {
         completedTodosDiv.appendChild(todoDiv);
       } else {
         incompleteTodosDiv.appendChild(todoDiv);
