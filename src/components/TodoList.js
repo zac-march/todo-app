@@ -1,6 +1,7 @@
 class TodoList {
-  constructor() {
+  constructor(name) {
     this.items = [];
+    this.name = name;
   }
 
   addItem(item) {
