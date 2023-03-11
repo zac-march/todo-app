@@ -48,15 +48,18 @@ function TodoListScreenController() {
 
       const { title, description, dueDate, isPriority, isComplete } = todo;
       const priorityClass = isPriority ? "priority" : "";
-      const completeClass = isComplete ? "complete" : "";
+      const completeClass = isComplete ? "complete" : "incomplete";
 
+      if (isPriority) {
+        todoContainer.classList.add("priority");
+      }
+      todoContainer.classList.add(completeClass);
       todoContainer.innerHTML = `
-        <p class="title ${priorityClass}">${title}</p>
-        <p class="description">${description}</p>
+        <div class="todo-header">
+          <p class="todo-title">${title}</p>
+          <p class="todo-description">${description}</p>
+        </div>
         <p class="due-date">${dueDate}</p>
-        <p class="status ${completeClass}">${
-        isComplete ? "Completed" : "Incomplete"
-      }</p>
       `;
       todoContainer.classList.add("todo");
 
