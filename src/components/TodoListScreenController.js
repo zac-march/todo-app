@@ -42,8 +42,10 @@ function TodoListScreenController() {
   }
 
   function displayTodos() {
-    const todoListDiv = document.createElement("div");
-    todoListDiv.classList.add("todo-list");
+    const incompleteTodosDiv = document.createElement("div");
+    const completedTodosDiv = document.createElement("div");
+    incompleteTodosDiv.classList.add("incomplete-todo-list");
+    completedTodosDiv.classList.add("completed-todo-list");
     for (const [index, todo] of todoList.items.entries()) {
       const todoDiv = document.createElement("div");
       todoDiv.dataset.index = index;
@@ -73,10 +75,14 @@ function TodoListScreenController() {
         updateScreen();
       });
       todoDiv.appendChild(removeBtn);
-
-      todoListDiv.appendChild(todoDiv);
+      if (isComplete) {
+        completedTodosDiv.appendChild(todoDiv);
+      } else {
+        incompleteTodosDiv.appendChild(todoDiv);
+      }
     }
-    body.appendChild(todoListDiv);
+    body.appendChild(incompleteTodosDiv);
+    body.appendChild(completedTodosDiv);
   }
   updateScreen();
 }
