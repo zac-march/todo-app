@@ -13,21 +13,32 @@ function TodoListScreenController() {
   function displayTodoListHeader() {
     const todoListHeaderDiv = document.createElement("div");
     const todoListTitle = document.createElement("h1");
-    const todoCreateBtn = document.createElement("button");
 
-    todoCreateBtn.textContent = "+ ADD";
-    todoCreateBtn.classList.add("add-todo-btn");
+    const todoCreateDiv = generateTodoCreateDiv();
     todoListTitle.textContent = todoList.name;
-
     todoListHeaderDiv.appendChild(todoListTitle);
-    todoListHeaderDiv.appendChild(todoCreateBtn);
+    todoListHeaderDiv.appendChild(todoCreateDiv);
     body.appendChild(todoListHeaderDiv);
 
-    todoCreateBtn.addEventListener("click", () => {
-      const todo = Todo.createRandom();
-      todoList.add(todo);
-      updateScreen();
-    });
+    function generateTodoCreateDiv() {
+      const todoCreateDiv = document.createElement("div");
+      const todoCreateBtn = document.createElement("button");
+      const todoCreateInput = document.createElement("input");
+
+      todoCreateBtn.textContent = "+ ADD";
+      todoCreateBtn.classList.add("add-todo-btn");
+      todoCreateInput.placeholder = "Add new todo";
+
+      todoCreateDiv.appendChild(todoCreateBtn);
+      todoCreateDiv.appendChild(todoCreateInput);
+      todoCreateBtn.addEventListener("click", () => {
+        if (todoCreateInput.value != "") {
+          todoList.add(new Todo(todoCreateInput.value));
+          updateScreen();
+        }
+      });
+      return todoCreateDiv;
+    }
   }
 
   function displayTodos() {
