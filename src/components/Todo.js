@@ -1,8 +1,8 @@
 class Todo {
   constructor(
     title,
-    description,
-    dueDate,
+    description = "",
+    dueDate = "",
     isPriority = false,
     isComplete = false
   ) {
