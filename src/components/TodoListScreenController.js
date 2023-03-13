@@ -35,22 +35,38 @@ function TodoListScreenController() {
 
   function renderTodoCreate() {
     const todoCreateDiv = document.createElement("div");
-    const todoCreateBtn = document.createElement("button");
-    const todoCreateInput = document.createElement("input");
+    const todoCreateForm = document.createElement("Form");
+    const todoAddBtn = document.createElement("button");
+    const titleInput = document.createElement("input");
+    const dateInput = document.createElement("input");
+    const descriptionInput = document.createElement("textarea");
+    const dateLbl = document.createElement("label");
+    const dateDiv = document.createElement("div");
+    const formHiddenInputs = document.createElement("div");
 
-    todoCreateBtn.textContent = "+ ADD";
-    todoCreateBtn.classList.add("add-todo-btn");
-    todoCreateInput.placeholder = "Add new todo";
+    dateLbl.textContent = "Due date:";
+    dateInput.type = "date";
+    todoAddBtn.textContent = "+ ADD";
+    todoAddBtn.classList.add("add-todo-btn");
+    descriptionInput.placeholder = "Add a description";
+    titleInput.placeholder = "Add new todo";
     todoCreateDiv.classList.add("todo-create");
-    todoCreateDiv.classList.add("todo-list");
+    dateDiv.id = "todo-create-date";
+    todoCreateForm.classList.add("todo-create-form");
+    todoAddBtn.addEventListener("click", createTodo);
 
-    todoCreateDiv.appendChild(todoCreateBtn);
-    todoCreateDiv.appendChild(todoCreateInput);
-    todoCreateBtn.addEventListener("click", createTodo);
+    todoCreateDiv.appendChild(todoCreateForm);
+    todoCreateForm.appendChild(todoAddBtn);
+    todoCreateForm.appendChild(titleInput);
+    todoCreateForm.appendChild(formHiddenInputs);
+    formHiddenInputs.appendChild(descriptionInput);
+    formHiddenInputs.appendChild(dateDiv);
+    dateDiv.appendChild(dateLbl);
+    dateDiv.appendChild(dateInput);
 
     function createTodo() {
-      if (todoCreateInput.value != "") {
-        todoList.add(new Todo(todoCreateInput.value));
+      if (titleInput.value != "") {
+        todoList.add(new Todo(titleInput.value));
         updateScreen();
       }
     }
