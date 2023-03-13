@@ -14,6 +14,11 @@
   margin: 0;
 }
 
+body,
+html {
+  width: 100%;
+}
+
 body {
   font-family: "Roboto", sans-serif;
   background-color: var(--background-colour);
@@ -22,11 +27,20 @@ body {
   font-size: 1.25rem;
 }
 
-.incomplete-todo-list {
-  display: grid;
-  grid-template-rows: repeat(auto-fit, 1fr);
-  gap: 1px;
+/* Todo component */
+
+.todo-component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
 }
+
+.todo-component > * {
+  width: 33.33%;
+}
+
+/* Create Todo */
 
 .todo-create {
   display: grid;
@@ -50,6 +64,20 @@ body {
   aspect-ratio: 1/1;
 }
 
+/* List of todos */
+
+.todo-lists {
+  display: grid;
+}
+
+.incomplete-todo-list {
+  display: grid;
+  grid-template-rows: repeat(auto-fit, 1fr);
+  gap: 1px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  z-index: 1;
+}
+
 .todo {
   display: grid;
   grid-template-columns: min-content 1fr 4ch min-content;
@@ -57,17 +85,13 @@ body {
   grid-template-rows: 1fr;
   gap: 1rem;
   padding: 1rem;
+  min-height: 4.7rem;
 }
 
 .todo-date {
   font-size: 0.9rem;
   align-self: center;
 }
-
-/* .todo > button {
-  aspect-ratio: 1/1;
-  width: min-content;
-} */
 
 .todo-description {
   color: rgba(0, 0, 0, 0.54);

@@ -3,15 +3,20 @@ import { Todo } from "./Todo";
 
 function TodoListScreenController() {
   const body = document.querySelector("body");
-  const todoList = generateRandomTodoList();
+  const todoComponent = document.createElement("div");
+  todoComponent.classList.add("todo-component");
+  todoComponent.textContent = "bro";
+  body.appendChild(todoComponent);
   const todoListDiv = document.createElement("div");
+  todoListDiv.classList.add("todo-lists");
+  const todoList = generateRandomTodoList();
 
   function updateScreen() {
-    body.innerHTML = "";
+    todoComponent.innerHTML = "";
     renderHeader();
     renderTodoCreate();
     updateTodoList();
-    body.appendChild(todoListDiv);
+    todoComponent.appendChild(todoListDiv);
   }
 
   function updateTodoList() {
@@ -25,7 +30,7 @@ function TodoListScreenController() {
 
     todoListTitle.textContent = todoList.name;
     todoListHeaderDiv.appendChild(todoListTitle);
-    body.appendChild(todoListHeaderDiv);
+    todoComponent.appendChild(todoListHeaderDiv);
   }
 
   function renderTodoCreate() {
@@ -37,6 +42,7 @@ function TodoListScreenController() {
     todoCreateBtn.classList.add("add-todo-btn");
     todoCreateInput.placeholder = "Add new todo";
     todoCreateDiv.classList.add("todo-create");
+    todoCreateDiv.classList.add("todo-list");
 
     todoCreateDiv.appendChild(todoCreateBtn);
     todoCreateDiv.appendChild(todoCreateInput);
@@ -48,13 +54,14 @@ function TodoListScreenController() {
         updateScreen();
       }
     }
-    body.appendChild(todoCreateDiv);
+    todoComponent.appendChild(todoCreateDiv);
   }
 
   function renderLists() {
     const incompleteTodosDiv = document.createElement("div");
     const completedTodosDiv = document.createElement("div");
     incompleteTodosDiv.classList.add("incomplete-todo-list");
+    incompleteTodosDiv.classList.add("todo-list");
     completedTodosDiv.classList.add("completed-todo-list");
 
     function createTodoItemElement(todo, index) {
