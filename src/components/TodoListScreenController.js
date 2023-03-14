@@ -2,6 +2,7 @@ import { generateRandomTodoList } from "../generateRandomTodoList";
 import { Todo } from "./Todo";
 import completeIcon from "../images/complete.svg";
 import incompleteIcon from "../images/incomplete.svg";
+import editIcon from "../images/edit.svg";
 
 function TodoListScreenController() {
   const body = document.querySelector("body");
@@ -13,8 +14,53 @@ function TodoListScreenController() {
   todoListDiv.classList.add("todo-lists");
   const todoList = generateRandomTodoList();
 
+  function renderEditModal() {
+    const modalContainer = document.createElement("div");
+    const modalContent = document.createElement("div");
+    const formTop = document.createElement("div");
+    const formBottom = document.createElement("div");
+
+    const deleteButton = document.createElement("button");
+
+    const saveButton = document.createElement("button");
+    const titleInput = document.createElement("input");
+
+    const descriptionInput = document.createElement("textarea");
+    const dateContainer = document.createElement("div");
+    const dateLbl = document.createElement("label");
+    const dateInput = document.createElement("input");
+
+    dateInput.type = "date";
+    dateLbl.textContent = "Due date:";
+    saveButton.textContent = "SAVE";
+    descriptionInput.placeholder = "Add a description";
+    dateContainer.id = "todo-create-date";
+    deleteButton.textContent = "DELETE";
+
+    deleteButton.classList.add("edit-modal-delete");
+    modalContainer.classList.add("edit-modal");
+    modalContent.classList.add("edit-modal-content");
+    formTop.classList.add("edit-modal-top");
+    formBottom.classList.add("edit-modal-bottom");
+
+    formTop.append(saveButton, titleInput);
+    formBottom.append(descriptionInput, dateContainer);
+    dateContainer.append(dateLbl, dateInput);
+
+    modalContent.append(formTop, formBottom, deleteButton);
+    modalContainer.appendChild(modalContent);
+    todoComponent.appendChild(modalContainer);
+
+    window.onclick = function (event) {
+      if (event.target == modalContainer) {
+        modalContainer.style.display = "none";
+      }
+    };
+  }
+
   function updateScreen() {
     todoComponent.innerHTML = "";
+    renderEditModal();
     renderHeader();
     renderTodoCreate();
     updateTodoList();
@@ -40,8 +86,10 @@ function TodoListScreenController() {
     const form = document.createElement("Form");
     const formTop = document.createElement("div");
     const formBottom = document.createElement("div");
+
     const todoAddBtn = document.createElement("button");
     const titleInput = document.createElement("input");
+
     const descriptionInput = document.createElement("textarea");
     const dateContainer = document.createElement("div");
     const dateLbl = document.createElement("label");
@@ -66,14 +114,10 @@ function TodoListScreenController() {
     todoComponent.addEventListener("click", queryIsFormFocused);
 
     todoCreateContainer.appendChild(form);
-    form.appendChild(formTop);
-    form.appendChild(formBottom);
-    formTop.appendChild(todoAddBtn);
-    formTop.appendChild(titleInput);
-    formBottom.appendChild(descriptionInput);
-    formBottom.appendChild(dateContainer);
-    dateContainer.appendChild(dateLbl);
-    dateContainer.appendChild(dateInput);
+    form.append(formTop, formBottom);
+    formTop.append(todoAddBtn, titleInput);
+    formBottom.append(descriptionInput, dateContainer);
+    dateContainer.append(dateLbl, dateInput);
 
     function activateForm() {
       formBottom.style.height = "3rem";
@@ -112,6 +156,7 @@ function TodoListScreenController() {
   function renderLists() {
     const incompleteTodosDiv = document.createElement("div");
     const completedTodosDiv = document.createElement("div");
+
     incompleteTodosDiv.classList.add("incomplete-todo-list");
     incompleteTodosDiv.classList.add("todo-list");
     completedTodosDiv.classList.add("completed-todo-list");
@@ -138,44 +183,79 @@ function TodoListScreenController() {
       <p class="todo-date">${isComplete ? "" : dueDate}</p>
     `;
 
-      if (isComplete) {
-        completedTodosDiv.appendChild(todoDiv);
-      } else {
-        incompleteTodosDiv.appendChild(todoDiv);
-      }
-
       return todoDiv;
     }
 
     function toggleComplete(e) {
+      e.stopPropagation();
       const indexOfTodo = e.target.parentElement.dataset.index;
       todoList.get(indexOfTodo).toggleComplete();
       updateTodoList();
     }
 
-    function removeTodoItem(e) {
-      const indexOfTodo = e.target.parentElement.dataset.index;
-      todoList.remove(indexOfTodo);
-      updateTodoList();
+    function editTodo(todo, index) {
+      console.log(todo);
+      const editModal = document.querySelector(".edit-modal");
+      editModal.style.display = "block";
+
+      const title = document.querySelector(".edit-modal-top input");
+      title.value = todo.title;
+
+      const dueDate = document.querySelector(".edit-modal-bottom input");
+      // dueDate.value = todo.dueDate;
+
+      const description = document.querySelector(".edit-modal-bottom textarea");
+      description.value = todo.description;
+
+      const saveButton = document.querySelector(".edit-modal-top button");
+      saveButton.addEventListener("click", () => {
+        todo.setTitle(title.value);
+        todo.setDescription(description.value);
+        todo.setDueDate(dueDate.value);
+        resetEditModal();
+        updateScreen();
+      });
+
+      const deleteButton = document.querySelector(
+        ".edit-modal-content > button"
+      );
+      deleteButton.addEventListener("click", () => {
+        todoList.remove(index);
+        resetEditModal();
+        updateScreen();
+      });
+
+      function resetEditModal() {
+        title.value = "";
+        description.value = "";
+        dueDate.value = "";
+      }
     }
 
     function renderTodoDivs() {
       for (const [index, todo] of todoList.items.entries()) {
-        const todoDiv = createTodoItemElement(todo, index);
+        const todoElement = createTodoItemElement(todo, index);
 
-        const completeBtn = todoDiv.querySelector("button:first-of-type");
-        addCompleteIcon(completeBtn, todo);
-
-        completeBtn.addEventListener("click", toggleComplete);
+        renderTodoButtons(todoElement, todo);
 
         if (todo.isComplete) {
-          completedTodosDiv.appendChild(todoDiv);
+          completedTodosDiv.appendChild(todoElement);
         } else {
-          incompleteTodosDiv.appendChild(todoDiv);
+          incompleteTodosDiv.appendChild(todoElement);
+          todoElement.addEventListener("click", function () {
+            editTodo(todo, index);
+          });
         }
       }
       todoListDiv.appendChild(incompleteTodosDiv);
       todoListDiv.appendChild(completedTodosDiv);
+
+      function renderTodoButtons(todoElement, todo) {
+        const completeBtn = todoElement.querySelector("button:first-of-type");
+        addCompleteIcon(completeBtn, todo);
+
+        completeBtn.addEventListener("click", toggleComplete);
+      }
 
       function addCompleteIcon(button, todo) {
         if (todo.isComplete) {
