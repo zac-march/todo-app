@@ -62,45 +62,44 @@ body {
 
 .todo-create {
   overflow: hidden;
-}
-
-.todo-create-form {
-  display: grid;
-  grid-template-columns: 1fr 5fr 5fr 5fr;
-  grid-template-rows: repeat(auto-fit, 1fr);
-  gap: 0.5rem;
   padding: 0.5rem;
+  padding-bottom: 0;
   background-color: white;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  margin-bottom: 1px;
 }
 
-.todo-create-form > input {
-  grid-column: span 3;
+.todo-create-form-top {
+  display: grid;
+  grid-template-columns: min-content 5fr;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+#todo-create-form-title-input {
   border: none;
   border-bottom: 1px solid rgb(153, 153, 153);
   font-size: 1rem;
+  padding: 0.5rem;
 }
 
-.todo-create-form > div {
-  grid-column: span 2;
-  display: flex;
+.todo-create-form-bottom {
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  transition: height 0.3s ease;
+  height: 0;
+}
+
+.todo-create-form button {
+  aspect-ratio: 1/1;
+  width: min-content;
 }
 
 .todo-create-form textarea {
-  min-width: 100%;
-  font-size: 0.8rem;
-  border: 1px solid rgb(153, 153, 153);
-}
-
-#todo-create-date {
-  grid-column: span 1;
-  font-size: 0.8rem;
-}
-
-.todo-create > button {
-  aspect-ratio: 1/1;
-  width: min-content;
+  padding: 0.5rem;
 }
 
 /* List of todos */

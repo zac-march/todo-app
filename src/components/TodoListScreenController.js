@@ -34,43 +34,77 @@ function TodoListScreenController() {
   }
 
   function renderTodoCreate() {
-    const todoCreateDiv = document.createElement("div");
-    const todoCreateForm = document.createElement("Form");
+    const todoCreateContainer = document.createElement("div");
+    const form = document.createElement("Form");
+    const formTop = document.createElement("div");
+    const formBottom = document.createElement("div");
     const todoAddBtn = document.createElement("button");
     const titleInput = document.createElement("input");
-    const dateInput = document.createElement("input");
     const descriptionInput = document.createElement("textarea");
+    const dateContainer = document.createElement("div");
     const dateLbl = document.createElement("label");
-    const dateDiv = document.createElement("div");
-    const formHiddenInputs = document.createElement("div");
+    const dateInput = document.createElement("input");
 
-    dateLbl.textContent = "Due date:";
     dateInput.type = "date";
+    todoAddBtn.type = "button";
+    dateLbl.textContent = "Due date:";
     todoAddBtn.textContent = "+ ADD";
-    todoAddBtn.classList.add("add-todo-btn");
     descriptionInput.placeholder = "Add a description";
     titleInput.placeholder = "Add new todo";
-    todoCreateDiv.classList.add("todo-create");
-    dateDiv.id = "todo-create-date";
-    todoCreateForm.classList.add("todo-create-form");
-    todoAddBtn.addEventListener("click", createTodo);
+    dateContainer.id = "todo-create-date";
 
-    todoCreateDiv.appendChild(todoCreateForm);
-    todoCreateForm.appendChild(todoAddBtn);
-    todoCreateForm.appendChild(titleInput);
-    todoCreateForm.appendChild(formHiddenInputs);
-    formHiddenInputs.appendChild(descriptionInput);
-    formHiddenInputs.appendChild(dateDiv);
-    dateDiv.appendChild(dateLbl);
-    dateDiv.appendChild(dateInput);
+    titleInput.id = "todo-create-form-title-input";
+    todoCreateContainer.classList.add("todo-create");
+    form.classList.add("todo-create-form");
+    formTop.classList.add("todo-create-form-top");
+    formBottom.classList.add("todo-create-form-bottom");
+
+    todoAddBtn.addEventListener("click", createTodo);
+    todoCreateContainer.addEventListener("click", activateForm);
+    todoComponent.addEventListener("click", queryIsFormFocused);
+
+    todoCreateContainer.appendChild(form);
+    form.appendChild(formTop);
+    form.appendChild(formBottom);
+    formTop.appendChild(todoAddBtn);
+    formTop.appendChild(titleInput);
+    formBottom.appendChild(descriptionInput);
+    formBottom.appendChild(dateContainer);
+    dateContainer.appendChild(dateLbl);
+    dateContainer.appendChild(dateInput);
+
+    function activateForm() {
+      formBottom.style.height = "3rem";
+      todoCreateContainer.style.paddingBottom = ".5rem";
+    }
+
+    function deactivateForm() {
+      formBottom.style.height = "0";
+      todoCreateContainer.style.paddingBottom = "0";
+    }
+
+    function queryIsFormFocused() {
+      if (
+        titleInput === document.activeElement ||
+        dateInput === document.activeElement ||
+        descriptionInput === document.activeElement
+      ) {
+        activateForm();
+      } else {
+        deactivateForm();
+      }
+    }
 
     function createTodo() {
       if (titleInput.value != "") {
         todoList.add(new Todo(titleInput.value));
         updateScreen();
       }
+      descriptionInput.value = "";
+      dateInput.value = "";
+      titleInput.value = "";
     }
-    todoComponent.appendChild(todoCreateDiv);
+    todoComponent.appendChild(todoCreateContainer);
   }
 
   function renderLists() {
