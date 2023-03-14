@@ -1,5 +1,7 @@
 import { generateRandomTodoList } from "../generateRandomTodoList";
 import { Todo } from "./Todo";
+import completeIcon from "../images/complete.svg";
+import incompleteIcon from "../images/incomplete.svg";
 
 function TodoListScreenController() {
   const body = document.querySelector("body");
@@ -128,13 +130,12 @@ function TodoListScreenController() {
       }
 
       todoDiv.innerHTML = `
-      <button>${isComplete ? "✓" : "O"}</button>
+      <button></button>
       <div class="todo-header">
         <p class="todo-title">${title}</p>
-        <p class="todo-description">${description}</p>
+        <p class="todo-description">${isComplete ? "" : description}</p>
       </div>
-      <p class="todo-date">${dueDate}</p>
-      <button>X</button>
+      <p class="todo-date">${isComplete ? "" : dueDate}</p>
     `;
 
       if (isComplete) {
@@ -163,10 +164,9 @@ function TodoListScreenController() {
         const todoDiv = createTodoItemElement(todo, index);
 
         const completeBtn = todoDiv.querySelector("button:first-of-type");
-        const removeBtn = todoDiv.querySelector("button:last-of-type");
+        addCompleteIcon(completeBtn, todo);
 
         completeBtn.addEventListener("click", toggleComplete);
-        removeBtn.addEventListener("click", removeTodoItem);
 
         if (todo.isComplete) {
           completedTodosDiv.appendChild(todoDiv);
@@ -176,6 +176,14 @@ function TodoListScreenController() {
       }
       todoListDiv.appendChild(incompleteTodosDiv);
       todoListDiv.appendChild(completedTodosDiv);
+
+      function addCompleteIcon(button, todo) {
+        if (todo.isComplete) {
+          button.style.backgroundImage = `url(${completeIcon})`;
+        } else {
+          button.style.backgroundImage = `url(${incompleteIcon})`;
+        }
+      }
     }
     renderTodoDivs();
   }
