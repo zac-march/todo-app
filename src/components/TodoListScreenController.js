@@ -7,10 +7,10 @@ import editIcon from "../images/edit.svg";
 function TodoListScreenController() {
   const body = document.querySelector("body");
   const todoComponent = document.createElement("div");
-  todoComponent.classList.add("todo-component");
   todoComponent.textContent = "bro";
   body.appendChild(todoComponent);
   const todoListDiv = document.createElement("div");
+  todoComponent.classList.add("todo-component");
   todoListDiv.classList.add("todo-lists");
   const todoList = generateRandomTodoList();
 
@@ -103,7 +103,6 @@ function TodoListScreenController() {
     titleInput.placeholder = "Add new todo";
     dateContainer.id = "todo-create-date";
 
-    titleInput.id = "todo-create-form-title-input";
     todoCreateContainer.classList.add("todo-create");
     form.classList.add("todo-create-form");
     formTop.classList.add("todo-create-form-top");
@@ -158,8 +157,6 @@ function TodoListScreenController() {
     const completedTodosDiv = document.createElement("div");
 
     incompleteTodosDiv.classList.add("incomplete-todo-list");
-    incompleteTodosDiv.classList.add("todo-list");
-    completedTodosDiv.classList.add("completed-todo-list");
 
     function createTodoItemElement(todo, index) {
       const { title, description, dueDate, isPriority, isComplete } = todo;

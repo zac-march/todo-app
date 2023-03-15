@@ -1,11 +1,19 @@
+/* Define font variable */
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
 
+/* Define color variables */
 :root {
   --font-color: black;
-  --background-colour: #eeeeee;
+  --background-color: #eeeeee;
   --completed-font-color: #838788;
+
+  /* Define width variables for different screen sizes */
+  --todo-width-desktop: 33.33%;
+  --todo-width-tablet: 50%;
+  --todo-width-mobile: 80%;
 }
 
+/* Global styles */
 *,
 *::before,
 *::after {
@@ -19,16 +27,16 @@ html {
   width: 100%;
 }
 
+/* Body styles */
 body {
   font-family: "Roboto", sans-serif;
-  background-color: var(--background-colour);
+  background-color: var(--background-color);
   color: var(--font-color);
   padding: 10px;
   font-size: 1.25rem;
 }
 
-/* Todo component */
-
+/* Todo component styles */
 .todo-component {
   display: flex;
   flex-direction: column;
@@ -36,19 +44,21 @@ body {
   margin: 0;
 }
 
+/* Apply width variables for different screen sizes */
+
 .todo-component > * {
-  width: 33.33%;
+  width: var(--todo-width-desktop);
 }
 
 @media only screen and (max-width: 1300px) {
   .todo-component > * {
-    width: 50%;
+    width: var(--todo-width-tablet);
   }
 }
 
 @media only screen and (max-width: 750px) {
   .todo-component > * {
-    width: 80%;
+    width: var(--todo-width-mobile);
   }
 }
 
@@ -58,8 +68,7 @@ body {
   }
 }
 
-/* Create Todo */
-
+/* Create Todo styles */
 .todo-create {
   overflow: hidden;
   padding: 0.5rem;
@@ -78,7 +87,7 @@ body {
   margin-bottom: 0.5rem;
 }
 
-#todo-create-form-title-input,
+.todo-create-form-top input,
 .edit-modal-top input {
   border: none;
   border-bottom: 1px solid rgb(153, 153, 153);
@@ -105,8 +114,7 @@ body {
   padding: 0.5rem;
 }
 
-/* List of todos */
-
+/* List of todos styles */
 .todo-lists {
   display: grid;
 }
@@ -119,6 +127,7 @@ body {
   z-index: 1;
 }
 
+/* Todo object styles */
 .todo {
   display: grid;
   grid-template-columns: 44px 1fr max-content;
@@ -128,6 +137,7 @@ body {
   padding: 1rem;
   min-height: 4.7rem;
 }
+
 .todo button {
   background: none;
   border: 0;
@@ -168,7 +178,6 @@ body {
 }
 
 /* Edit Todo Modal */
-
 .edit-modal {
   display: none;
   position: fixed;
