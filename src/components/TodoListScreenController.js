@@ -3,11 +3,11 @@ import { Todo } from "./Todo";
 import completeIcon from "../images/complete.svg";
 import incompleteIcon from "../images/incomplete.svg";
 import editIcon from "../images/edit.svg";
+import deleteIcon from "../images/delete.svg";
 
 function TodoListScreenController() {
   const body = document.querySelector("body");
   const todoComponent = document.createElement("div");
-  todoComponent.textContent = "bro";
   body.appendChild(todoComponent);
   const todoListDiv = document.createElement("div");
   todoComponent.classList.add("todo-component");
@@ -17,8 +17,8 @@ function TodoListScreenController() {
   function renderEditModal() {
     const modalContainer = document.createElement("div");
     const modalContent = document.createElement("div");
-    const formTop = document.createElement("div");
-    const formBottom = document.createElement("div");
+    const contentTop = document.createElement("div");
+    const contentBottom = document.createElement("div");
 
     const deleteButton = document.createElement("button");
 
@@ -35,19 +35,19 @@ function TodoListScreenController() {
     saveButton.textContent = "SAVE";
     descriptionInput.placeholder = "Add a description";
     dateContainer.id = "todo-create-date";
-    deleteButton.textContent = "DELETE";
+    deleteButton.style.backgroundImage = `url(${deleteIcon})`;
 
     deleteButton.classList.add("edit-modal-delete");
     modalContainer.classList.add("edit-modal");
     modalContent.classList.add("edit-modal-content");
-    formTop.classList.add("edit-modal-top");
-    formBottom.classList.add("edit-modal-bottom");
+    contentTop.classList.add("edit-modal-top");
+    contentBottom.classList.add("edit-modal-bottom");
 
-    formTop.append(saveButton, titleInput);
-    formBottom.append(descriptionInput, dateContainer);
+    contentTop.append(saveButton, titleInput);
+    contentBottom.append(descriptionInput, dateContainer);
     dateContainer.append(dateLbl, dateInput);
 
-    modalContent.append(formTop, formBottom, deleteButton);
+    modalContent.append(deleteButton, contentTop, contentBottom);
     modalContainer.appendChild(modalContent);
     todoComponent.appendChild(modalContainer);
 

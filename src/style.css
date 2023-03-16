@@ -46,24 +46,28 @@ body {
 
 /* Apply width variables for different screen sizes */
 
-.todo-component > * {
+.todo-component > *,
+.edit-modal-content {
   width: var(--todo-width-desktop);
 }
 
 @media only screen and (max-width: 1300px) {
-  .todo-component > * {
+  .todo-component > *,
+  .edit-modal-content {
     width: var(--todo-width-tablet);
   }
 }
 
 @media only screen and (max-width: 750px) {
-  .todo-component > * {
+  .todo-component > *,
+  .edit-modal-content {
     width: var(--todo-width-mobile);
   }
 }
 
 @media only screen and (max-width: 500px) {
-  .todo-component > * {
+  .todo-component > *,
+  .edit-modal-content {
     width: 100%;
   }
 }
@@ -92,7 +96,14 @@ body {
   border: none;
   border-bottom: 1px solid rgb(153, 153, 153);
   font-size: 1rem;
-  padding: 0.5rem;
+  padding: 0.2rem;
+  padding-bottom: 0;
+}
+
+.todo-create-form-top input:focus,
+.edit-modal-top input:focus {
+  outline: 0;
+  border-bottom: 2px solid #2596be;
 }
 
 .todo-create-form-bottom,
@@ -192,13 +203,26 @@ body {
 }
 
 .edit-modal-content {
+  display: grid;
   background-color: #fefefe;
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 30%;
+  border-radius: 10px;
+  position: relative;
 }
 
 .edit-modal-bottom {
   height: auto;
+}
+
+.edit-modal-content > button {
+  position: absolute;
+  top: 5%;
+  left: 92%;
+  background: none;
+  border: 0;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  width: 1.5rem;
 }
