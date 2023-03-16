@@ -160,7 +160,7 @@ function TodoListScreenController() {
     incompleteTodosDiv.classList.add("incomplete-todo-list");
 
     function createTodoItemElement(todo, index) {
-      const { title, description, dueDate, isPriority, isComplete } = todo;
+      const { title, description, dueDate, isComplete } = todo;
 
       const todoDiv = document.createElement("div");
       todoDiv.classList.add("todo");
@@ -168,9 +168,6 @@ function TodoListScreenController() {
 
       const completeClass = isComplete ? "complete" : "incomplete";
       todoDiv.classList.add(completeClass);
-      if (isPriority) {
-        todoDiv.classList.add("priority");
-      }
 
       todoDiv.innerHTML = `
       <button></button>

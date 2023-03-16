@@ -1,24 +1,13 @@
 class Todo {
-  constructor(
-    title,
-    description = "",
-    dueDate = "",
-    isPriority = false,
-    isComplete = false
-  ) {
+  constructor(title, description = "", dueDate = "", isComplete = false) {
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
-    this.isPriority = isPriority;
     this.isComplete = isComplete;
   }
 
   toggleComplete() {
     this.isComplete ? (this.isComplete = false) : (this.isComplete = true);
-  }
-
-  setPriority(isPriority) {
-    this.isPriority = isPriority;
   }
 
   setDescription(description) {
