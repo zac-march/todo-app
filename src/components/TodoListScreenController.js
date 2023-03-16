@@ -2,8 +2,9 @@ import { generateRandomTodoList } from "../generateRandomTodoList";
 import { Todo } from "./Todo";
 import completeIcon from "../images/complete.svg";
 import incompleteIcon from "../images/incomplete.svg";
-import editIcon from "../images/edit.svg";
+import saveIcon from "../images/save.svg";
 import deleteIcon from "../images/delete.svg";
+import addIcon from "../images/add.svg";
 
 function TodoListScreenController() {
   const body = document.querySelector("body");
@@ -32,7 +33,7 @@ function TodoListScreenController() {
 
     dateInput.type = "date";
     dateLbl.textContent = "Due date:";
-    saveButton.textContent = "SAVE";
+    saveButton.style.backgroundImage = `url(${saveIcon})`;
     descriptionInput.placeholder = "Add a description";
     dateContainer.id = "todo-create-date";
     deleteButton.style.backgroundImage = `url(${deleteIcon})`;
@@ -87,7 +88,7 @@ function TodoListScreenController() {
     const formTop = document.createElement("div");
     const formBottom = document.createElement("div");
 
-    const todoAddBtn = document.createElement("button");
+    const addButton = document.createElement("button");
     const titleInput = document.createElement("input");
 
     const descriptionInput = document.createElement("textarea");
@@ -96,9 +97,9 @@ function TodoListScreenController() {
     const dateInput = document.createElement("input");
 
     dateInput.type = "date";
-    todoAddBtn.type = "button";
+    addButton.type = "button";
     dateLbl.textContent = "Due date:";
-    todoAddBtn.textContent = "+ ADD";
+    addButton.style.backgroundImage = `url(${addIcon})`;
     descriptionInput.placeholder = "Add a description";
     titleInput.placeholder = "Add new todo";
     dateContainer.id = "todo-create-date";
@@ -108,13 +109,13 @@ function TodoListScreenController() {
     formTop.classList.add("todo-create-form-top");
     formBottom.classList.add("todo-create-form-bottom");
 
-    todoAddBtn.addEventListener("click", createTodo);
+    addButton.addEventListener("click", createTodo);
     todoCreateContainer.addEventListener("click", activateForm);
     todoComponent.addEventListener("click", queryIsFormFocused);
 
     todoCreateContainer.appendChild(form);
     form.append(formTop, formBottom);
-    formTop.append(todoAddBtn, titleInput);
+    formTop.append(addButton, titleInput);
     formBottom.append(descriptionInput, dateContainer);
     dateContainer.append(dateLbl, dateInput);
 
@@ -143,8 +144,8 @@ function TodoListScreenController() {
     function createTodo() {
       if (titleInput.value != "") {
         todoList.add(new Todo(titleInput.value));
-        updateScreen();
       }
+      updateScreen();
       descriptionInput.value = "";
       dateInput.value = "";
       titleInput.value = "";
