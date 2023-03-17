@@ -60,6 +60,7 @@ function TodoListScreenController() {
   }
 
   function updateScreen() {
+    todoList.sortByDate();
     todoComponent.innerHTML = "";
     renderEditModal();
     renderHeader();
@@ -175,7 +176,7 @@ function TodoListScreenController() {
         <p class="todo-title">${title}</p>
         <p class="todo-description">${isComplete ? "" : description}</p>
       </div>
-      <p class="todo-date">${isComplete ? "" : dueDate}</p>
+      <p class="todo-date">${isComplete ? "" : todo.getDateDistance()}</p>
     `;
 
       return todoDiv;
@@ -189,7 +190,6 @@ function TodoListScreenController() {
     }
 
     function editTodo(todo, index) {
-      console.log(todo);
       const editModal = document.querySelector(".edit-modal");
       editModal.style.display = "block";
 
@@ -197,7 +197,7 @@ function TodoListScreenController() {
       title.value = todo.title;
 
       const dueDate = document.querySelector(".edit-modal-bottom input");
-      // dueDate.value = todo.dueDate;
+      dueDate.value = todo.dueDate;
 
       const description = document.querySelector(".edit-modal-bottom textarea");
       description.value = todo.description;

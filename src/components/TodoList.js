@@ -15,6 +15,12 @@ class TodoList {
   get(index) {
     return this.items[index];
   }
+
+  sortByDate() {
+    this.items.sort(function (a, b) {
+      return new Date(a.dueDate) - new Date(b.dueDate);
+    });
+  }
 }
 
 export { TodoList };
