@@ -60,18 +60,17 @@ function TodoListScreenController() {
   }
 
   function updateScreen() {
-    todoList.sortByDate();
     todoComponent.innerHTML = "";
     renderEditModal();
     renderHeader();
     renderTodoCreate();
     updateTodoList();
-    todoComponent.appendChild(todoListDiv);
   }
 
   function updateTodoList() {
     todoListDiv.innerHTML = "";
     renderLists();
+    todoComponent.appendChild(todoListDiv);
   }
 
   function renderHeader() {
@@ -144,9 +143,12 @@ function TodoListScreenController() {
 
     function createTodo() {
       if (titleInput.value != "") {
-        todoList.add(new Todo(titleInput.value));
+        todoList.add(
+          new Todo(titleInput.value, descriptionInput.value, dateInput.value)
+        );
+        updateTodoList();
       }
-      updateScreen();
+      deactivateForm();
       descriptionInput.value = "";
       dateInput.value = "";
       titleInput.value = "";
@@ -161,8 +163,7 @@ function TodoListScreenController() {
     incompleteTodosDiv.classList.add("incomplete-todo-list");
 
     function createTodoItemElement(todo, index) {
-      const { title, description, dueDate, isComplete } = todo;
-
+      const { title, description, isComplete } = todo;
       const todoDiv = document.createElement("div");
       todoDiv.classList.add("todo");
       todoDiv.dataset.index = index;
@@ -204,11 +205,14 @@ function TodoListScreenController() {
 
       const saveButton = document.querySelector(".edit-modal-top button");
       saveButton.addEventListener("click", () => {
-        todo.setTitle(title.value);
-        todo.setDescription(description.value);
-        todo.setDueDate(dueDate.value);
+        if (title.value != "") {
+          todo.setTitle(title.value);
+          todo.setDescription(description.value);
+          todo.setDueDate(dueDate.value);
+          console.log(todo.dueDate);
+        }
         resetEditModal();
-        updateScreen();
+        updateTodoList();
       });
 
       const deleteButton = document.querySelector(
@@ -221,6 +225,7 @@ function TodoListScreenController() {
       });
 
       function resetEditModal() {
+        editModal.style.display = "none";
         title.value = "";
         description.value = "";
         dueDate.value = "";
@@ -228,6 +233,7 @@ function TodoListScreenController() {
     }
 
     function renderTodoDivs() {
+      todoList.sortByDate();
       for (const [index, todo] of todoList.items.entries()) {
         const todoElement = createTodoItemElement(todo, index);
 

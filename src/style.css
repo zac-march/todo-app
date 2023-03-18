@@ -86,7 +86,7 @@ body {
 .todo-create-form-top,
 .edit-modal-top {
   display: grid;
-  grid-template-columns: 44px 5fr;
+  grid-template-columns: max-content 5fr;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
 }
@@ -130,6 +130,10 @@ body {
   padding: 1px;
   transition: padding ease-in-out;
   background-origin: content-box;
+}
+
+.todo-create-form-top button {
+  width: 2.2rem;
 }
 
 .todo-create-form-top button:active,
