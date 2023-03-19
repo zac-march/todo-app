@@ -1,3 +1,5 @@
+import { Todo } from "./Todo";
+
 class TodoList {
   constructor(name) {
     this.items = [];
@@ -32,6 +34,15 @@ class TodoList {
     this.items = [];
     this.items.push(...itemsWithDates);
     this.items.push(...itemsWithoutDates);
+  }
+
+  static generateDemoList() {
+    const todoList = new TodoList("Demo class");
+    for (let i = 1; i <= 10; i++) {
+      todoList.add(Todo.createRandom());
+    }
+
+    return todoList;
   }
 }
 

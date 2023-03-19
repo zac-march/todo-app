@@ -1,3 +1,5 @@
+import { TodoList } from "./TodoList";
+
 class TodoListCollection {
   constructor() {
     this.collection = [];
@@ -9,6 +11,15 @@ class TodoListCollection {
 
   remove(index) {
     this.collection.splice(index, 1);
+  }
+
+  addTodoList(name) {
+    const todoList = new TodoList(name);
+    this.add(todoList);
+  }
+
+  addDemoList() {
+    this.add(TodoList.generateDemoList());
   }
 }
 

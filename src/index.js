@@ -1,4 +1,8 @@
-import { TodoListScreenController } from "./components/TodoListScreenController";
+import { TodoListCollection } from "./components/TodoListCollection";
+import { TodoListCollectionScreenController } from "./components/TodoListCollectionScreenController";
 import "./style.css";
 
-TodoListScreenController();
+const todoCollection = new TodoListCollection();
+todoCollection.addDemoList();
+
+TodoListCollectionScreenController(todoCollection);

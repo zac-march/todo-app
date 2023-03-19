@@ -1,4 +1,3 @@
-import { generateRandomTodoList } from "../generateRandomTodoList";
 import { Todo } from "./Todo";
 import completeIcon from "../images/complete.svg";
 import incompleteIcon from "../images/incomplete.svg";
@@ -6,14 +5,11 @@ import saveIcon from "../images/save.svg";
 import deleteIcon from "../images/delete.svg";
 import addIcon from "../images/add.svg";
 
-function TodoListScreenController() {
-  const body = document.querySelector("body");
-  const todoComponent = document.createElement("div");
-  body.appendChild(todoComponent);
+function TodoListScreenController(todoList) {
+  const todoComponent = document.querySelector("#todo-list-component");
+  todoComponent.innerHTML = "";
   const todoListDiv = document.createElement("div");
-  todoComponent.classList.add("todo-component");
   todoListDiv.classList.add("todo-lists");
-  const todoList = generateRandomTodoList();
 
   function renderEditModal() {
     const modalContainer = document.createElement("div");
@@ -78,6 +74,7 @@ function TodoListScreenController() {
     const todoListTitle = document.createElement("h1");
 
     todoListTitle.textContent = todoList.name;
+    todoListHeaderDiv.classList.add(".todo-list-header");
     todoListHeaderDiv.appendChild(todoListTitle);
     todoComponent.appendChild(todoListHeaderDiv);
   }
@@ -209,7 +206,6 @@ function TodoListScreenController() {
           todo.setTitle(title.value);
           todo.setDescription(description.value);
           todo.setDueDate(dueDate.value);
-          console.log(todo.dueDate);
         }
         resetEditModal();
         updateTodoList();

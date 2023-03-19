@@ -25,6 +25,7 @@
 body,
 html {
   width: 100%;
+  height: 100%;
 }
 
 /* Body styles */
@@ -32,12 +33,12 @@ body {
   font-family: "Roboto", sans-serif;
   background-color: var(--background-color);
   color: var(--font-color);
-  padding: 10px;
   font-size: 1.25rem;
+  overflow-x: hidden;
 }
 
 /* Todo component styles */
-.todo-component {
+#todo-list-component {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -46,27 +47,35 @@ body {
 
 /* Apply width variables for different screen sizes */
 
-.todo-component > *,
+.todo-create,
+.todo-lists,
+.todo-list-header,
 .edit-modal-content {
   width: var(--todo-width-desktop);
 }
 
 @media only screen and (max-width: 1300px) {
-  .todo-component > *,
+  .todo-create,
+  .todo-lists,
+  .todo-list-header,
   .edit-modal-content {
     width: var(--todo-width-tablet);
   }
 }
 
 @media only screen and (max-width: 750px) {
-  .todo-component > *,
+  .todo-create,
+  .todo-lists,
+  .todo-list-header,
   .edit-modal-content {
     width: var(--todo-width-mobile);
   }
 }
 
 @media only screen and (max-width: 500px) {
-  .todo-component > *,
+  .todo-create,
+  .todo-lists,
+  .todo-list-header,
   .edit-modal-content {
     width: 100%;
   }
@@ -92,7 +101,8 @@ body {
 }
 
 .todo-create-form-top input,
-.edit-modal-top input {
+.edit-modal-top input,
+.collection-list-add input {
   border: none;
   border-bottom: 1px solid rgb(153, 153, 153);
   font-size: 1rem;
@@ -101,7 +111,8 @@ body {
 }
 
 .todo-create-form-top input:focus,
-.edit-modal-top input:focus {
+.edit-modal-top input:focus,
+.collection-list-add input:focus {
   outline: 0;
   border-bottom: 2px solid #2596be;
 }
@@ -119,7 +130,8 @@ body {
 .todo-create-form-top button,
 .edit-modal-top button,
 .todo button,
-.edit-modal-content > button {
+.edit-modal-content > button,
+.collection-list-add button {
   justify-self: center;
   align-self: center;
   background: none;
@@ -130,6 +142,7 @@ body {
   padding: 1px;
   transition: padding ease-in-out;
   background-origin: content-box;
+  aspect-ratio: 1/1;
 }
 
 .todo-create-form-top button {
@@ -139,13 +152,10 @@ body {
 .todo-create-form-top button:active,
 .edit-modal-top button:active,
 .todo button:active,
-.edit-modal-content > button:active {
+.edit-modal-content > button:active,
+.collection-list-add > button:active {
   padding: 3px;
   transition-duration: 0.05s;
-}
-
-.todo-component button {
-  aspect-ratio: 1/1;
 }
 
 .todo-create textarea,
@@ -210,7 +220,7 @@ body {
 .edit-modal {
   display: none;
   position: fixed;
-  z-index: 2;
+  z-index: 3;
   padding-top: 100px;
   left: 0;
   top: 0;
@@ -221,13 +231,13 @@ body {
 }
 
 .edit-modal-content {
+  position: relative;
   display: grid;
   background-color: #fefefe;
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
   border-radius: 10px;
-  position: relative;
 }
 
 .edit-modal-bottom {
@@ -239,4 +249,175 @@ body {
   top: 5%;
   left: 92%;
   width: 1.5rem;
+}
+
+/* Collection Component */
+
+/* This component is a modified version of Erik Terwan's 'Pure CSS Hamburger fold-out menu' 
+* https://codepen.io/erikterwan/details/EVzeRP
+*/
+
+#collection-component {
+  display: block;
+  position: relative;
+  top: 50px;
+  left: 50px;
+
+  z-index: 3;
+
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.menu-overlay {
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: hsla(0, 0%, 14%);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.55s ease;
+}
+
+#collection-component > input:checked ~ .menu-overlay {
+  visibility: visible;
+  opacity: 0.315;
+}
+
+#collection-component > input {
+  display: block;
+  width: 40px;
+  height: 32px;
+  position: absolute;
+  top: -7px;
+  left: -5px;
+
+  cursor: pointer;
+
+  opacity: 0;
+  z-index: 2;
+
+  -webkit-touch-callout: none;
+}
+
+#collection-component span {
+  display: block;
+  width: 33px;
+  height: 4px;
+  margin-bottom: 5px;
+  position: relative;
+
+  background: #cdcdcd;
+  border-radius: 3px;
+
+  z-index: 1;
+
+  transform-origin: 4px 0px;
+
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+    background 0.3s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
+}
+
+#collection-component > span:nth-child(2) {
+  transform-origin: 0% 0%;
+}
+
+#collection-component > span:nth-child(4) {
+  transform-origin: 0% 100%;
+}
+
+#collection-component > input:checked ~ span {
+  opacity: 1;
+  transform: rotate(40deg) translate(-2px, -1px);
+  background: #232323;
+}
+
+#collection-component > input:checked ~ span:nth-child(3) {
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+#collection-component > input:checked ~ span:nth-child(4) {
+  opacity: 1;
+  transform: rotate(-40deg) translate(0, -1px);
+}
+
+.collection-menu {
+  position: absolute;
+  width: 300px;
+  margin: -100px 0 0 -50px;
+  padding: 50px;
+  padding-top: 125px;
+
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+
+  transform-origin: 0% 0%;
+  transform: translate(-100%, 0);
+
+  transition: transform 0.3s cubic-bezier(0.77, 0.2, 0.05, 1);
+
+  border-bottom-right-radius: 10px;
+  box-shadow: rgb(0, 0, 0) 0px 1px 2px 0px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#collection-component > input:checked ~ .collection-menu {
+  transform: none;
+  opacity: 1;
+}
+
+@media screen and (max-width: 768px) {
+  .collection-menu {
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.77, 0.2, 0.05, 1);
+  }
+
+  #collection-component {
+    top: 33px;
+    left: 20px;
+  }
+
+  h1 {
+    margin-left: 10px;
+    margin-bottom: 10px;
+    font-size: 2rem;
+    text-align: right;
+  }
+
+  .collection-menu {
+    width: 100%;
+    margin: -100px 0 0 -20px;
+  }
+}
+
+.collection-menu > h2 {
+  text-align: center;
+}
+
+.collection-list-add {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+}
+
+.collection-list-add button {
+  width: 2rem;
+  text-align: right;
+}
+
+.collection-list-add input {
+  font-size: 1.5rem;
+  width: 100%;
+}
+
+.collection-list-container button {
+  width: 100%;
+  font-size: 1rem;
+  padding: 10px;
 }
