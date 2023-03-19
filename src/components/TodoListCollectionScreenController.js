@@ -70,12 +70,13 @@ function TodoListCollectionScreenController(todoCollection) {
         }
         addInput.value = "";
         renderCollectionList(collectionListContainer);
+        localStorage.setItem("collection", JSON.stringify(todoCollection));
       });
       collectionComponent.appendChild(collectionMenu);
     }
     function renderHeader() {
       const title = document.createElement("h2");
-      title.textContent = "Classes";
+      title.textContent = "Todo lists";
       collectionMenu.append(title);
     }
     function renderCollectionList(collectionListContainer) {
