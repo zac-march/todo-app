@@ -17,8 +17,10 @@ function getTodoCollection() {
     todoCollection = new TodoListCollection();
     todoCollection.addDemoList();
   } else {
+    let test = new TodoListCollection();
+
     todoCollection = JSON.parse(localStorage.getItem("collection"));
-    Object.setPrototypeOf(todoCollection, new TodoListCollection());
+    Object.setPrototypeOf(todoCollection, test);
     for (let todoList of todoCollection.collection) {
       Object.setPrototypeOf(todoList, new TodoList());
       for (let todo of todoList.items) {
