@@ -4,11 +4,12 @@ import { TodoListCollection } from "./components/TodoListCollection";
 import { TodoListCollectionScreenController } from "./components/TodoListCollectionScreenController";
 import "./style.css";
 
-let todoCollection = getTodoCollection();
+const todoCollection = getTodoCollection();
 
 TodoListCollectionScreenController(todoCollection);
 
 function getTodoCollection() {
+  let todoCollection;
   if (
     localStorage.getItem("collection") === "null" ||
     !storageAvailable("localStorage")
