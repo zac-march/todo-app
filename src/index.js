@@ -11,16 +11,14 @@ TodoListCollectionScreenController(todoCollection);
 function getTodoCollection() {
   let todoCollection;
   if (
-    localStorage.getItem("collection") === "null" ||
-    !storageAvailable("localStorage")
+    sessionStorage.getItem("collection") === "null" ||
+    !storageAvailable("sessionStorage")
   ) {
     todoCollection = new TodoListCollection();
     todoCollection.addDemoList();
   } else {
-    let test = new TodoListCollection();
-
-    todoCollection = JSON.parse(localStorage.getItem("collection"));
-    Object.setPrototypeOf(todoCollection, test);
+    todoCollection = JSON.parse(sessionStorage.getItem("collection"));
+    Object.setPrototypeOf(todoCollection, new TodoListCollection());
     for (let todoList of todoCollection.collection) {
       Object.setPrototypeOf(todoList, new TodoList());
       for (let todo of todoList.items) {

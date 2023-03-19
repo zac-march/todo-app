@@ -70,7 +70,7 @@ function TodoListCollectionScreenController(todoCollection) {
         }
         addInput.value = "";
         renderCollectionList(collectionListContainer);
-        localStorage.setItem("collection", JSON.stringify(todoCollection));
+        sessionStorage.setItem("collection", JSON.stringify(todoCollection));
       });
       collectionComponent.appendChild(collectionMenu);
     }
