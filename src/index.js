@@ -12,6 +12,7 @@ function getTodoCollection() {
   let todoCollection;
   if (
     sessionStorage.getItem("collection") === "null" ||
+    sessionStorage.getItem("collection") === null ||
     !storageAvailable("sessionStorage")
   ) {
     todoCollection = new TodoListCollection();
