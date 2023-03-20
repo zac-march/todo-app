@@ -11,6 +11,11 @@ function TodoListCollectionScreenController(todoCollection) {
   body.append(todoComponent);
 
   updateController();
+  console.log(todoCollection.current);
+  TodoListScreenController(
+    todoCollection.collection[todoCollection.current],
+    todoCollection
+  );
 
   function updateController() {
     collectionComponent.innerHTML = "";
@@ -97,7 +102,12 @@ function TodoListCollectionScreenController(todoCollection) {
             "#collection-component > input"
           );
           menuToggle.checked = false;
-          TodoListScreenController(todoCollection.collection[i]);
+          todoCollection.setCurrent(i);
+          TodoListScreenController(
+            todoCollection.collection[todoCollection.current],
+            todoCollection
+          );
+          sessionStorage.setItem("collection", JSON.stringify(todoCollection));
         });
       }
       collectionMenu.append(collectionListContainer);

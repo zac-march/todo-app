@@ -4,11 +4,11 @@ import { TodoListCollection } from "./components/TodoListCollection";
 import { TodoListCollectionScreenController } from "./components/TodoListCollectionScreenController";
 import "./style.css";
 
-const todoCollection = getTodoCollection();
+const todoCollection = getCollectionFromStorage();
 
 TodoListCollectionScreenController(todoCollection);
 
-function getTodoCollection() {
+function getCollectionFromStorage() {
   let todoCollection;
   if (
     sessionStorage.getItem("collection") === "null" ||
@@ -28,6 +28,10 @@ function getTodoCollection() {
     }
   }
   return todoCollection;
+}
+
+function wipeStorage() {
+  sessionStorage.setItem("collection", null);
 }
 
 function storageAvailable(type) {

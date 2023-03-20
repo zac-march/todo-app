@@ -3,6 +3,7 @@ import { TodoList } from "./TodoList";
 class TodoListCollection {
   constructor() {
     this.collection = [];
+    this.current = 0;
   }
 
   add(item) {
@@ -11,6 +12,15 @@ class TodoListCollection {
 
   remove(index) {
     this.collection.splice(index, 1);
+  }
+
+  setCurrent(index) {
+    this.current = index;
+  }
+
+  getList(index) {
+    const list = this.collection[0];
+    return this.current;
   }
 
   addTodoList(name) {

@@ -5,7 +5,7 @@ import saveIcon from "../images/save.svg";
 import deleteIcon from "../images/delete.svg";
 import addIcon from "../images/add.svg";
 
-function TodoListScreenController(todoList) {
+function TodoListScreenController(todoList, todoCollection) {
   const todoComponent = document.querySelector("#todo-list-component");
   todoComponent.innerHTML = "";
   const todoListDiv = document.createElement("div");
@@ -67,6 +67,7 @@ function TodoListScreenController(todoList) {
     todoListDiv.innerHTML = "";
     renderLists();
     todoComponent.appendChild(todoListDiv);
+    sessionStorage.setItem("collection", JSON.stringify(todoCollection));
   }
 
   function renderHeader() {
