@@ -18,11 +18,6 @@ class TodoListCollection {
     this.current = index;
   }
 
-  getList(index) {
-    const list = this.collection[0];
-    return this.current;
-  }
-
   addTodoList(name) {
     const todoList = new TodoList(name);
     this.add(todoList);
